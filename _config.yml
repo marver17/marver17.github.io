@@ -192,6 +192,7 @@ exclude:
   - _pages/profiles.md
   - _pages/repositories
   - _pages/teaching.md
+  - _pages/dropdown.md
   - purgecss.config.js
   - README.md
   - readme_preview/
