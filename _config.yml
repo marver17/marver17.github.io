@@ -151,8 +151,7 @@ collections:
     output: true
   projects:
     output: false
-  people:
-    output: false
+  
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
@@ -189,6 +188,7 @@ exclude:
   - package.json
   - package-lock.json
   - _pages/about_einstein.md
+  - _pages/teaching
   - purgecss.config.js
   - README.md
   - readme_preview/
