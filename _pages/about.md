@@ -6,7 +6,7 @@ subtitle: <a href="https://www.synalb.it">IRCCS Synalb SDN</a>, <a href="https:/
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: Foto_cv.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
       <p>Laboratorio di Elaborazione Immagini ed Inteligenza Artificiale</p>
