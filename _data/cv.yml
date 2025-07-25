@@ -2,96 +2,85 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
+      value: Mario Verdicchio
     - name: Date of Birth
-      value: 14th March 1879
+      value: 17th November 1995
+    - name : Location
+      value: Via Galileo Ferraris,144, 80142 Naples, Italy
     - name: Languages
-      value: English, German
+      value: English, Italian
+    - name: Personal Email
+      value:
+        - <a href="mailto:marioverd95@gmail.com">marioverd95@gmail.com</a>
+    - name: Institutional Email
+      value:
+        - <a href="mailto:mario.verdicchio@synlab.it">mario.verdicchio@synlab.it</a>; <a href="mailto:mario.verdicchio@unina.it">mario.verdicchio@unina.it</a>
+
+- title: Work Experience
+  type: time_table
+  contents:
+    - title: Medical Imaging Researcher
+      institution: IRCCS SYNLAB SDN, Naples, Italy
+      year: 2021 - now
+      description:
+        - Developed and implemented deep learning algorithms for medical imaging applications.
+        - Collaborated with multidisciplinary teams to integrate AI solutions into clinical workflows.
+        - Deployed of several data-managment platforms for the management of medical imaging data.
 
 - title: Education
   type: time_table
   contents:
     - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+      institution: University of Naples Federico II, Naples, Italy
+      year: 2022 - now 
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
+        - title: AI-based methods to support clinical decision in the medical imaging domain
           contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+            - Application of generative models to neuro imaging data.
+            - Development of a deep learning-based algorithm for the segmentation of brain tumors in MRI images.
 
-- title: Experience
-  type: time_table
-  contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title : MsC in Biomedical Engineering
+      institution: University of Naples Federico II, Naples, Italy
+      year: 2018 - 2021
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
+        - title: Performance analysis of algorithms for the segmentation and automatic classification of breasts based on their density
           contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+            - Developed a deep learning-based algorithm for the breast density estimation.
+            - Evaluated the performance of several segmentation algorithms of MR mammograms.
+    - title: BSc in Biomedical Engineering
+      institution: University of Naples Federico II, Naples, Italy
+      year: 2014 - 2018
       description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
-      description:
-
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
+        - title: ECG measurements with Arduino UNO
+          contents:
+            - Developed a system to measure the ECG signal using an Arduino UNO board and a few electronic components.
+            - Implemented filtering and processing algorithms to extract the ECG signal from the raw data.
+            - Analyzed the ECG signal to detect heart rate and rhythm abnormalities.
+- title: Visiting Experience 
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
-
-- title: Honors and Awards
-  type: time_table
-  contents:
-    - year: 1921
-      items:
-        - Nobel Prize in Physics
-        - Matteucci Medal
-    - year: 2029
-      items:
-        - Max Planck Medal
+    - year: 2024
+      title: Visiting Researcher
+      institution: KTH Royal Institute of Technology, Stockholm, Sweden
+      description:
+        - Working on a project related the application of deep learning based approaches to medical imaging reconstuction. Particoularly focused on the PET imaging modality.
+    - year: 2025
+      title: Visiting Researcher
+      institution: Teesside University, Middlesbrough, UK
+      description:
+        - Working on a project related digital pathology and the multiomics integration in the context of cancer research.
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
-      items:
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
-      items:
-        - Description 1.
-        - Description 2.
+    - title: Medical Imaging
+    - title: Neuroimaging 
+    - title: Deep Learning
+    - title: Artificial Intelligence in Healthcare
+    - title: Data Management in Healthcare
+    - title: Multiomics Integration
 
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+# - title: Other Interests
+#   type: list
+#   contents:
+#     - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
