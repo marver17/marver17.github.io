@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href="https://www.synalb.it">IRCCS Synalb SDN</a>, <a href="https://www.unina.it">University of Naples Federico II</a>
+subtitle: <a href="https://sdn.synlab.it/irccs-synlab-sdn/">IRCCS Synalb SDN</a>, <a href="https://cqb.dieti.unina.it/">University of Naples Federico II</a>
 
 profile:
   align: right
