@@ -14,15 +14,26 @@ nav: false
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             background: radial-gradient(circle at center, #1a472a 0%, #0f291e 100%);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            height: -webkit-fill-available;
         }
 
         .christmas-font {
@@ -44,6 +55,7 @@ nav: false
             animation-iteration-count: infinite, infinite;
             animation-play-state: running, running;
             pointer-events: none;
+            will-change: transform;
         }
 
         @keyframes snowflakes-fall {
@@ -285,33 +297,75 @@ nav: false
 
         /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-width: 768px) {
+            h1.christmas-font {
+                font-size: 2rem !important;
+                margin-bottom: 4rem !important;
+            }
+            
+            .box {
+                width: 160px;
+                height: 160px;
+            }
+            
             .character-popup {
-                width: 140px;
-                height: 140px;
+                width: 130px;
+                height: 130px;
             }
 
             .box.opened .character-popup {
-                transform: translateY(-120px) scale(1.2);
+                transform: translateY(-100px) scale(1.1);
             }
 
             .disney-avatars-container {
-                min-height: 140px;
+                min-height: 120px;
                 padding: 0.25rem;
             }
 
             .disney-image {
-                max-width: 280px;
+                max-width: 260px;
+            }
+            
+            .content-card {
+                padding: 1.5rem;
+                width: 95%;
+                max-width: 380px;
+            }
+            
+            .heart-float {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 480px) {
+            h1.christmas-font {
+                font-size: 1.5rem !important;
+                margin-bottom: 3rem !important;
+            }
+            
+            .box {
+                width: 140px;
+                height: 140px;
+            }
+            
             .character-popup {
-                width: 120px;
-                height: 120px;
+                width: 110px;
+                height: 110px;
+            }
+            
+            .box.opened .character-popup {
+                transform: translateY(-80px) scale(1);
             }
 
             .disney-image {
-                max-width: 240px;
+                max-width: 220px;
+            }
+            
+            .content-card {
+                padding: 1.25rem;
+            }
+            
+            .content-card h2 {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -385,7 +439,9 @@ nav: false
         // --- SNOW GENERATION ---
         function createSnow() {
             const container = document.getElementById('snow-container');
-            const numberOfSnowflakes = 30; // Not too many to keep performance high
+            // Riduco i fiocchi su mobile per migliorare le performance
+            const isMobile = window.innerWidth < 768;
+            const numberOfSnowflakes = isMobile ? 15 : 30;
             
             for (let i = 0; i < numberOfSnowflakes; i++) {
                 const flake = document.createElement('div');
@@ -409,21 +465,23 @@ nav: false
             if (box.classList.contains('opened')) return; 
             box.classList.add('opened');
 
-            // Confetti explosion
-            var duration = 2000;
-            var end = Date.now() + duration;
+            // Confetti explosion - ridotto su mobile
+            const isMobile = window.innerWidth < 768;
+            const duration = 2000;
+            const end = Date.now() + duration;
 
             (function frame() {
+                const particleCount = isMobile ? 3 : 5; // Meno particelle su mobile
                 confetti({
-                    particleCount: 5,
+                    particleCount: particleCount,
                     angle: 60,
                     spread: 55,
                     origin: { x: 0 },
                     colors: ['#d42426', '#ffd700', '#ffffff'],
-                    zIndex: 200 // Higher than everything
+                    zIndex: 200
                 });
                 confetti({
-                    particleCount: 5,
+                    particleCount: particleCount,
                     angle: 120,
                     spread: 55,
                     origin: { x: 1 },
@@ -438,14 +496,12 @@ nav: false
 
             // Transition sequence
             setTimeout(() => {
-                // 1. Show overlay container
                 contentScene.style.display = 'flex';
                 
-                // 2. Fade it in (CSS transition)
                 requestAnimationFrame(() => {
                     contentScene.classList.add('visible');
-                    giftScene.style.opacity = '0'; // Fade out background gift
-                    giftScene.style.pointerEvents = 'none'; // Disable clicks on background
+                    giftScene.style.opacity = '0';
+                    giftScene.style.pointerEvents = 'none';
                 });
                 
             }, 1200); 
