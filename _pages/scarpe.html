@@ -1,0 +1,455 @@
+---
+layout: none
+permalink: /regaloannis/
+nav: false
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎅</text></svg>">
+    <title> Buon Natale Anniss!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #1a472a 0%, #0f291e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .christmas-font {
+            font-family: 'Mountains of Christmas', cursive;
+        }
+
+        /* --- SNOW EFFECT --- */
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            top: -10%;
+            z-index: 1;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            animation-play-state: running, running;
+            pointer-events: none;
+        }
+
+        @keyframes snowflakes-fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes snowflakes-shake {
+            0% { transform: translateX(0px) rotate(0deg); }
+            50% { transform: translateX(80px) rotate(20deg); }
+            100% { transform: translateX(0px) rotate(40deg); }
+        }
+
+        /* --- GIFT BOX 3D --- */
+        .gift-container {
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .box.opened {
+            animation: none;
+            transform: rotateX(0) rotateY(0);
+        }
+
+        .box-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #d42426;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20; 
+            transition: all 0.5s ease;
+        }
+
+        .box-lid {
+            position: absolute;
+            width: 110%;
+            height: 40px;
+            background: #ff3336;
+            top: -20px;
+            left: -5%;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 30;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .box-inner-shadow {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            background: #8a1214;
+            transform: translateZ(-2px);
+            z-index: 5;
+        }
+
+        .ribbon-vertical {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: #ffd700;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ribbon-horizontal {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background: #ffd700;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* --- CHARACTER POPUP --- */
+        .character-popup {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            left: 10px;
+            top: 10px;
+            z-index: 15;
+            opacity: 0;
+            transform: translateY(50px) scale(0.5);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #ffd700;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Animation States */
+        .box.opened .box-lid {
+            transform: translateY(-250px) rotate(-20deg) translateX(40px);
+            opacity: 0;
+        }
+
+        .box.opened .character-popup {
+            opacity: 1;
+            transform: translateY(-160px) scale(1.4); 
+        }
+
+        .heart-float {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            opacity: 0;
+            transition: all 0.5s ease 0.5s;
+            z-index: 40;
+        }
+
+        .box.opened .heart-float {
+            opacity: 1;
+            top: -200px;
+            animation: pulse 1s infinite;
+        }
+
+        /* --- CONTENT CARD --- */
+        .content-scene-layer {
+            position: fixed;
+            inset: 0;
+            display: none; /* Managed by JS */
+            align-items: center;
+            justify-content: center;
+            z-index: 100; /* Must be higher than gift */
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .content-scene-layer.visible {
+            opacity: 1;
+        }
+
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 90%;
+            width: 450px;
+            border: 4px solid #ffd700;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .content-scene-layer.visible .content-card {
+            transform: scale(1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, 0) scale(1); }
+            50% { transform: translate(-50%, 0) scale(1.2); }
+            100% { transform: translate(-50%, 0) scale(1); }
+        }
+
+        /* --- NEW AVATAR STYLE --- */
+        .disney-avatars-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+
+        .disney-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .disney-avatars-container:hover .disney-image {
+            transform: scale(1.05);
+        }
+
+        .interaction-heart-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: #d42426;
+            animation: pulse-heart 1.2s infinite ease-in-out;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+            z-index: 10;
+        }
+
+        @keyframes pulse-heart {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.3); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .character-popup {
+                width: 140px;
+                height: 140px;
+            }
+
+            .box.opened .character-popup {
+                transform: translateY(-120px) scale(1.2);
+            }
+
+            .disney-avatars-container {
+                min-height: 140px;
+                padding: 0.25rem;
+            }
+
+            .disney-image {
+                max-width: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .character-popup {
+                width: 120px;
+                height: 120px;
+            }
+
+            .disney-image {
+                max-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Snow Container -->
+    <div id="snow-container" aria-hidden="true"></div>
+
+    <!-- START SCREEN -->
+    <div id="gift-scene" class="flex flex-col items-center justify-center h-screen w-full transition-all duration-1000">
+        <h1 class="text-white text-3xl md:text-5xl christmas-font mb-24 text-center px-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] z-10">
+            Ho un regalo per te...
+        </h1>
+        
+        <div class="gift-container" onclick="openGift()">
+            <div class="box" id="gift-box">
+                
+                <!-- Character Popup (Original Full Couple Image) -->
+                <div class="character-popup">
+                    <img src="/assets/img/IMG-20250930-WA0023.jpg" alt="Noi due" class="character-image">
+                </div>
+                <div class="heart-float">❤️</div>
+
+                <!-- Box Structure -->
+                <div class="box-lid">
+                    <div class="ribbon-vertical"></div>
+                </div>
+                <div class="box-body">
+                    <div class="ribbon-vertical"></div>
+                    <div class="ribbon-horizontal"></div>
+                </div>
+                <div class="box-inner-shadow"></div>
+            </div>
+        </div>
+        
+        <p class="text-white/80 mt-24 animate-pulse text-sm z-10">Tocca il pacco per scartare</p>
+    </div>
+
+    <!-- END SCREEN (OVERLAY) -->
+    <div id="content-scene" class="content-scene-layer">
+        <div class="content-card mx-4"> 
+            <div class="mt-10 flex justify-center gap-4 mb-2 text-4xl">
+                👢 👠 👟
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Non sapevo quali scegliere...</h2>
+            <p class="text-gray-600 mb-4 text-sm px-2">
+                Perché troppo scassacazzins 😄
+            </p>
+
+            <!-- THE COUPON -->
+            <div class="bg-yellow-50 border-2 border-yellow-200 border-dashed rounded-lg p-4 mb-4 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-yellow-200 text-yellow-800 text-[9px] px-2 py-1 font-bold">VALIDO DURANTE I SALDI</div>
+                <p class="font-bold text-yellow-800 text-lg mb-1">BUONO SCARPE</p>
+                <p class="text-yellow-700 text-xs uppercase tracking-wider mb-2">MODELLO A TUA SCELTA</p>
+                <div class="text-xs text-gray-500 italic border-t border-yellow-200 pt-2">
+                    Se fai la brava ti accompagno anchee 😉
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="text-[10px] text-gray-400 mt-3">
+                    PS: Non esagerare col prezzo, ricorda che ti aminss 😜
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SNOW GENERATION ---
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const numberOfSnowflakes = 30; // Not too many to keep performance high
+            
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                const flake = document.createElement('div');
+                flake.innerHTML = '❄';
+                flake.className = 'snowflake';
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.animationDelay = (Math.random() * 10) + 's, ' + (Math.random() * 3) + 's';
+                flake.style.opacity = Math.random();
+                flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(flake);
+            }
+        }
+        createSnow();
+
+        // --- GIFT LOGIC ---
+        function openGift() {
+            const box = document.getElementById('gift-box');
+            const giftScene = document.getElementById('gift-scene');
+            const contentScene = document.getElementById('content-scene');
+
+            if (box.classList.contains('opened')) return; 
+            box.classList.add('opened');
+
+            // Confetti explosion
+            var duration = 2000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#d42426', '#ffd700', '#ffffff'],
+                    zIndex: 200 // Higher than everything
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#d42426', '#ffd700', '#ffffff'],
+                    zIndex: 200
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            // Transition sequence
+            setTimeout(() => {
+                // 1. Show overlay container
+                contentScene.style.display = 'flex';
+                
+                // 2. Fade it in (CSS transition)
+                requestAnimationFrame(() => {
+                    contentScene.classList.add('visible');
+                    giftScene.style.opacity = '0'; // Fade out background gift
+                    giftScene.style.pointerEvents = 'none'; // Disable clicks on background
+                });
+                
+            }, 1200); 
+        }
+    </script>
+</body>
+</html>
